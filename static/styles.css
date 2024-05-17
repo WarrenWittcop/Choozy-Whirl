@@ -1,3 +1,31 @@
-body{
-    background-color: aqua;
+body {
+    background-color: whitesmoke;
+}
+
+nav {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0; 
+    position: fixed;
+    width: 100%;
+    top: 0;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav ul li {
+    width: 33.33%; 
+    text-align: center;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none; 
 }

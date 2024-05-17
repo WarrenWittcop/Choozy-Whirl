@@ -55,11 +55,32 @@ def login():
         # Validate password
         if user and user['password'] == password:
             session['user_id'] = user['username']
-            return redirect(url_for('hello'))
+            return redirect(url_for('profile'))
         else:
             return render_template('login.html', error="Invalid credentials")
     
     return render_template('login.html')
+
+# Route for profile
+@app.route('/profile')
+def profile():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    
+    username = session['user_id']
+    return render_template('profile.html', username=username)
+
+@app.route('/wheels')
+def wheels():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    
+    user_id = session['user_id']
+
+    #function get_user_wheels()
+    user_wheels = get_user_wheels(user_id) 
+
+    return render_template('wheels.html', user_wheels=user_wheels)
 
 # Route for logout
 @app.route('/logout')

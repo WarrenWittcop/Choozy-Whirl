@@ -7,7 +7,22 @@
     <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
 </head>
 <body>
+    <nav>
+        <ul>
+            {% if 'user_id' in session %}
+                <li><a href="{{ url_for('profile') }}">Profile</a></li>
+                <li><a href="{{ url_for('wheels') }}">Wheels</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            {% else %}
+                <li><a href="{{ url_for('hello') }}">Home</a></li>
+                <li><a href="{{ url_for('signupuserroute') }}">Sign Up</a></li>
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
     {% block body %}{% endblock %}
+
     <script src="{{url_for('static', filename='script.js')}}"></script>
 </body>
 </html>
