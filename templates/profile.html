@@ -3,8 +3,142 @@
 {% block title %} Profile {% endblock %}
 
 {% block body %}
-    <div style="padding-top: 50px;">
-        <h1>Welcome, {{ username }}!</h1>
-        <p>This is your profile page.</p>
-    </div>    
+
+<div style="padding-top: 30px;" class="words">
+    <h1>Welcome, {{ username }}!</h1>
+
+    {% if user_wheels %}
+        <div class="margin-bot">
+            <label for="wheelSelect">Select a Wheel to spin:</label>
+            <select id="wheelSelect" onchange="updateWheel()">
+                {% for wheel in user_wheels %}
+                    <option value="{{ wheel.name }}">{{ wheel.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+            <button id="spin-button" onclick="spinWheel()">Spin Wheel</button>
+        
+        <!-- Display selected option -->
+        <div id="selected-option"></div>
+
+        <div class="wheel-container">
+            <svg id="decision-wheel" width="80%" height="80%" viewBox="0 0 360 360"></svg>
+            <div id="indicator"></div> <!-- Indicator -->
+        </div>
+
+    {% else %}
+        <p>You have no wheels. Go to the wheels link to make one.</p>
+    {% endif %}
+</div>
+
+<script>
+    var wheelOptions = [];
+    var initialRotation = 0;
+
+    function centerWheel() {
+        var wheelContainer = document.querySelector('.wheel-container');
+        var wheel = document.getElementById("decision-wheel");
+        var wheelWidth = wheel.getBoundingClientRect().width;
+        var containerWidth = wheelContainer.getBoundingClientRect().width;
+        wheel.style.marginLeft = (containerWidth - wheelWidth) / 2 + 'px';
+    }
+
+    window.addEventListener('load', function() {
+        updateWheel();
+        centerWheel();
+    });
+
+    window.addEventListener('resize', centerWheel);
+
+    function updateWheel() {
+        var selectedWheel = document.getElementById("wheelSelect").value;
+        fetch('/get-wheel-options?wheel_name=' + selectedWheel)
+            .then(response => response.json())
+            .then(data => {
+                wheelOptions = data.options;
+                drawWheel(wheelOptions);
+            })
+            .catch(error => console.error('Error fetching wheel options:', error));
+    }
+
+    function drawWheel(options) {
+    var wheel = document.getElementById("decision-wheel");
+    wheel.innerHTML = '';
+    if (options.length === 0) return;
+
+    var totalOptions = options.length;
+    var anglePerOption = 360 / totalOptions;
+
+    for (var i = 0; i < totalOptions; i++) {
+        var startAngle = i * anglePerOption;
+        var endAngle = (i + 1) * anglePerOption;
+
+        // Draw wedge
+        var wedge = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        wedge.setAttribute("fill", getRandomColor());
+        wedge.setAttribute("d", describeArc(180, 180, 160, startAngle, endAngle)); 
+        wheel.appendChild(wedge);
+    }
+}
+
+    function getRandomColor() {
+        var letters = '3456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * letters.length)];
+        }
+        return color;
+    }
+
+    function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
+        var angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
+        return {
+            x: centerX + (radius * Math.cos(angleInRadians)),
+            y: centerY + (radius * Math.sin(angleInRadians))
+        };
+    }
+
+    function describeArc(x, y, radius, startAngle, endAngle) {
+        var start = polarToCartesian(x, y, radius, endAngle);
+        var end = polarToCartesian(x, y, radius, startAngle);
+        var largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+        var d = [
+            "M", start.x, start.y,
+            "A", radius, radius, 0, largeArcFlag, 0, end.x, end.y,
+            "L", x, y,
+            "Z"
+        ].join(" ");
+
+        return d;
+    }
+
+    function spinWheel() {
+        if (wheelOptions.length === 0) return;
+        var randomIndex = Math.floor(Math.random() * wheelOptions.length);
+        var selectedOption = wheelOptions[randomIndex];
+        document.getElementById("selected-option").innerText = "Selected Option: " + selectedOption;
+        animateWheel(randomIndex); // Pass the selected index to animateWheel
+    }
+
+    function animateWheel(selectedIndex) {
+        var wheel = document.getElementById("decision-wheel");
+        wheel.style.transition = 'transform 3s ease-in-out';
+        rotationCount = Math.floor(Math.random() * 5) + 5; 
+        initialRotation = Math.floor(Math.random() * 360);
+        var rotation = 360 * rotationCount + initialRotation; 
+        wheel.style.transform = 'rotate(' + rotation + 'deg)';
+
+        // Display indicator
+        var indicator = document.getElementById("indicator");
+        var totalOptions = wheelOptions.length;
+        var anglePerOption = 360 / totalOptions;
+        var indicatorAngle = anglePerOption * selectedIndex;
+        indicator.style.transform = 'rotate(' + (indicatorAngle + 90) + 'deg)';
+        setTimeout(function() {
+            wheel.style.transition = '';
+        }, 3000);
+    }
+</script>
+
 {% endblock %}

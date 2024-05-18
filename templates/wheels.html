@@ -1,33 +1,46 @@
-
 {% extends 'base.html' %}
+
 {% block title %}Wheels{% endblock %}
+
 {% block body %}
-    <h1>Your Wheels</h1>
+    <h1 style="padding-top: 50px;">Your Wheels</h1>
    
     <ul>
-        {% for wheel_name, options in user_wheels.items() %}
-            <li>
-                <strong>{{ wheel_name }}</strong>
-                <ul>
-                    {% for option in options %}
-                        <li>{{ option }}</li>
-                    {% endfor %}
-                </ul>
-                <form method="post" action="{{ url_for('delete_wheel', wheel_name=wheel_name) }}">
-                    <button type="submit">Delete Wheel</button>
-                </form>
-            </li>
-        {% endfor %}
+        {% if user_wheels %}
+            {% for wheel in user_wheels %}
+                <li>
+                    <strong>{{ wheel.name }}</strong>
+                    <ul>
+                        {% for option in wheel.options %}
+                            <li>{{ option }}</li>
+                        {% endfor %}
+                    </ul>
+                    <form method="post" action="{{ url_for('wheels') }}" style="display: inline;">
+                        <input type="hidden" name="action" value="delete">
+                        <input type="hidden" name="wheel_index" value="{{ loop.index0 }}">
+                        <button type="submit">Delete Wheel</button>
+                    </form>
+                    <button onclick="document.getElementById('edit-form-{{ loop.index0 }}').style.display='block'">Edit</button>
+                    <form id="edit-form-{{ loop.index0 }}" method="post" action="{{ url_for('wheels') }}" style="display:none;">
+                        <input type="hidden" name="action" value="update">
+                        <input type="hidden" name="wheel_index" value="{{ loop.index0 }}">
+                        <input type="text" name="wheel_name" value="{{ wheel.name }}" required>
+                        <input type="text" name="options" value="{{ wheel.options | join(', ') }}" required>
+                        <button type="submit">Save Changes</button>
+                    </form>
+                </li>
+            {% endfor %}
+        {% else %}
+            <p>No wheels found. Create one!</p>
+        {% endif %}
     </ul>
     
-    <!-- make a new wheel -->
-    <form method="post" action="{{ url_for('create_wheel') }}">
-        <label for="wheel_name">Wheel Name:</label>
-        <input type="text" id="wheel_name" name="wheel_name" required>
-        
-        <label for="options">Options (comma-separated):</label>
-        <input type="text" id="options" name="options" required>
-        
+    <!-- Make a new wheel -->
+    <form method="post" action="{{ url_for('wheels') }}" class="wheel-form">
+        <input type="hidden" name="action" value="create">
+        <input type="text" name="wheel_name" id="wheel_name" placeholder="Wheel Name" required class="margin-bot"><br>
+        <input type="text" name="options" id="options" placeholder="Options (comma-separated)" required class="margin-bot"><br>
         <button type="submit">Create Wheel</button>
     </form>
+    
 {% endblock %}
