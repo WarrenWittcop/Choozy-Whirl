@@ -1,0 +1,33 @@
+
+{% extends 'base.html' %}
+{% block title %}Wheels{% endblock %}
+{% block body %}
+    <h1>Your Wheels</h1>
+   
+    <ul>
+        {% for wheel_name, options in user_wheels.items() %}
+            <li>
+                <strong>{{ wheel_name }}</strong>
+                <ul>
+                    {% for option in options %}
+                        <li>{{ option }}</li>
+                    {% endfor %}
+                </ul>
+                <form method="post" action="{{ url_for('delete_wheel', wheel_name=wheel_name) }}">
+                    <button type="submit">Delete Wheel</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+    
+    <!-- make a new wheel -->
+    <form method="post" action="{{ url_for('create_wheel') }}">
+        <label for="wheel_name">Wheel Name:</label>
+        <input type="text" id="wheel_name" name="wheel_name" required>
+        
+        <label for="options">Options (comma-separated):</label>
+        <input type="text" id="options" name="options" required>
+        
+        <button type="submit">Create Wheel</button>
+    </form>
+{% endblock %}

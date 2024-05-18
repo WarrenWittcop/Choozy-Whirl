@@ -61,7 +61,7 @@ def login():
     
     return render_template('login.html')
 
-# Route for profile
+# route for profile
 @app.route('/profile')
 def profile():
     if 'user_id' not in session:
@@ -70,19 +70,35 @@ def profile():
     username = session['user_id']
     return render_template('profile.html', username=username)
 
-@app.route('/wheels')
+# route for wheels
+@app.route('/wheels', methods=['GET', 'POST'])
 def wheels():
     if 'user_id' not in session:
         return redirect(url_for('login'))
-    
-    user_id = session['user_id']
 
-    #function get_user_wheels()
-    user_wheels = get_user_wheels(user_id) 
+    user_id = session['user_id']
+    user_wheels = get_user_wheels(user_id)
+
+    if request.method == 'POST':
+        if request.form['action'] == 'create':
+            wheel_name = request.form['wheel_name']
+            options = [option.strip() for option in request.form['options'].split(',')]
+            user_wheels.append({'name': wheel_name, 'options': options})
+            user_wheels[user_id] = user_wheels
+        elif request.form['action'] == 'delete':
+            wheel_index = int(request.form['wheel_index'])
+            del user_wheels[wheel_index]
+        elif request.form['action'] == 'update':
+            wheel_index = int(request.form['wheel_index'])
+            wheel_name = request.form['wheel_name']
+            options = [option.strip() for option in request.form['options'].split(',')]
+            user_wheels[wheel_index] = {'name': wheel_name, 'options': options}
+        
+        return redirect(url_for('wheels'))
 
     return render_template('wheels.html', user_wheels=user_wheels)
 
-# Route for logout
+# route for logout
 @app.route('/logout')
 def logout():
     session.pop('user_id', None)

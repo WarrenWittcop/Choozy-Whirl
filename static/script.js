@@ -1,2 +1,2 @@
 
-alert('Text')
+// alert('Text')

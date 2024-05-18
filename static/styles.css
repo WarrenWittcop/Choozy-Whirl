@@ -3,7 +3,7 @@ body {
 }
 
 nav {
-    background-color: #333;
+    background-color: #0531e2;
     color: #fff;
     padding: 10px 0; 
     position: fixed;
@@ -28,4 +28,124 @@ nav ul li {
 nav ul li a {
     color: #fff;
     text-decoration: none; 
+}
+
+.link-container {
+    display: inline-block;
+    position: relative;
+    background-color: black; 
+    padding: 5px 10px;
+    border-radius: 10px; 
+    margin: 0 10px; 
+  }
+  
+  .link-container a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .link-container a:before {
+    content: "";
+    background: linear-gradient(90deg,
+      #ff2400,
+      #e81d1d,
+      #e8b71d,
+      #e3e81d,
+      #1de840,
+      #1ddde8,
+      #2b1de8,
+      #dd00f3,
+      #dd00f3,
+      #ff2400,
+      #e81d1d,
+      #e8b71d,
+      #e3e81d,
+      #1de840,
+      #1ddde8,
+      #2b1de8,
+      #dd00f3,
+      #dd00f3);
+    position: absolute;
+    top: -5px; 
+    left: -5px; 
+    background-size: 200%; 
+    z-index: -1;
+    filter: blur(5px); 
+    width: calc(100% + 10px); 
+    height: calc(100% + 10px);
+    animation: glowing 20s linear infinite;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    border-radius: 15px; 
+  }
+  
+  .link-container a:hover:before {
+    opacity: 1;
+  }
+  
+  @keyframes glowing {
+    0% {
+      background-position: 0 0;
+    }
+  
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+/* styling for home.html */
+
+.welcome-text {
+    font-size: 1.5em; 
+    font-weight: bold; 
+}
+
+.welcome-text, .rainbow-text {
+    background: linear-gradient(90deg,
+        #ff2400,
+        #e81d1d,
+        #e8b71d,
+        #e3e81d,
+        #1de840,
+        #1ddde8,
+        #2b1de8,
+        #dd00f3,
+        #dd00f3,
+        #ff2400,
+        #e81d1d,
+        #e8b71d,
+        #e3e81d,
+        #1de840,
+        #1ddde8,
+        #2b1de8,
+        #dd00f3,
+        #dd00f3);
+    background-size: 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: glowing 20s linear infinite;
+}
+
+@keyframes glowing {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.words {
+    text-align: center;
+}
+
+/* styling for login.html */
+
+.login-form {
+    margin-top: 30px;
+}
+
+.margin-bot {
+    margin-bottom: 30px;
 }

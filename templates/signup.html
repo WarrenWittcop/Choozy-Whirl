@@ -5,24 +5,22 @@
 
 {% block body %} 
 
-<h1> Sign Up below</h1>
+<div class="words">
+    <h1 style="padding-top: 50px;"> Sign Up below</h1>
 
-    <form Method="post">
+        <form method="post" action="{{ url_for('signupuserroute') }}" class="signup-form">
 
-        {{ form.hidden_tag() }}
+            {{ form.hidden_tag() }}
 
-        <label for="username">Username:</label>
-        <input type="text" name="username" id="username" required>
-        
-        <label for="email">Email:</label>
-        <input type="text" name="email" id="email" required>
+            <input type="text" name="username" id="username" placeholder="Username" required class="margin-bot"><br>
+            
+            <input type="email" name="email" id="email" placeholder="Email" required class="margin-bot"><br>
 
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password" minlength="2" required>
+            <input type="password" name="password" id="password" placeholder="Password" minlength="2" required class="margin-bot"><br>
 
-        <input type="submit" value="Submit">
-    
-    </form>
+            <button type="submit">Submit</button>
 
+        </form>
+</div>
 
 {% endblock %}

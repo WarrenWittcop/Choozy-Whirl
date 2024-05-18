@@ -10,13 +10,13 @@
     <nav>
         <ul>
             {% if 'user_id' in session %}
-                <li><a href="{{ url_for('profile') }}">Profile</a></li>
-                <li><a href="{{ url_for('wheels') }}">Wheels</a></li>
-                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                <li class="link-container"><a href="{{ url_for('profile') }}">Profile</a></li>
+                <li class="link-container"><a href="{{ url_for('wheels') }}">Wheels</a></li>
+                <li class="link-container"><a href="{{ url_for('logout') }}">Logout</a></li>  
             {% else %}
-                <li><a href="{{ url_for('hello') }}">Home</a></li>
-                <li><a href="{{ url_for('signupuserroute') }}">Sign Up</a></li>
-                <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li class="link-container"><a href="{{ url_for('hello') }}">Home</a></li>
+                <li class="link-container"><a href="{{ url_for('signupuserroute') }}">Sign Up</a></li>
+                <li class="link-container"><a href="{{ url_for('login') }}">Login</a></li> 
             {% endif %}
         </ul>
     </nav>
