@@ -1,5 +1,11 @@
 
 /* base.html code */
+body, html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
     background-color: whitesmoke;
 }
@@ -11,6 +17,8 @@ nav {
     position: fixed;
     width: 100%;
     top: 0;
+    left: 0;
+    z-index: 1000; 
 }
 
 nav ul {
@@ -171,6 +179,9 @@ nav ul li a {
   margin: 5px 0; 
 }
 
+.margin-bot2 {
+  margin-bottom: 15px;
+}
 
   /* Adjustments for wheel */
   .wheel-container {
@@ -178,6 +189,8 @@ nav ul li a {
     display: flex;
     justify-content: center;
     align-items: center;
+    width:100%;
+    overflow: hidden;
   }
 
   #decision-wheel {
