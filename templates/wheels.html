@@ -3,24 +3,31 @@
 {% block title %}Wheels{% endblock %}
 
 {% block body %}
-    <h1 style="padding-top: 50px;">Your Wheels</h1>
-   
-    <ul>
-        {% if user_wheels %}
-            {% for wheel in user_wheels %}
-                <li>
+
+    <div class="words"  style="padding-top: 50px;">
+        <h1>Your Wheels</h1>
+    
+        <ul>
+            {% if user_wheels %}
+                {% for wheel in user_wheels %}
+                    
+                <div class="wheel">
                     <strong>{{ wheel.name }}</strong>
-                    <ul>
+                    
+                    <ul class="options">
                         {% for option in wheel.options %}
                             <li>{{ option }}</li>
                         {% endfor %}
                     </ul>
+
                     <form method="post" action="{{ url_for('wheels') }}" style="display: inline;">
                         <input type="hidden" name="action" value="delete">
                         <input type="hidden" name="wheel_index" value="{{ loop.index0 }}">
                         <button type="submit">Delete Wheel</button>
                     </form>
+
                     <button onclick="document.getElementById('edit-form-{{ loop.index0 }}').style.display='block'">Edit</button>
+
                     <form id="edit-form-{{ loop.index0 }}" method="post" action="{{ url_for('wheels') }}" style="display:none;">
                         <input type="hidden" name="action" value="update">
                         <input type="hidden" name="wheel_index" value="{{ loop.index0 }}">
@@ -28,19 +35,27 @@
                         <input type="text" name="options" value="{{ wheel.options | join(', ') }}" required>
                         <button type="submit">Save Changes</button>
                     </form>
-                </li>
-            {% endfor %}
-        {% else %}
-            <p>No wheels found. Create one!</p>
-        {% endif %}
-    </ul>
+
+                </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p>No wheels found. Create one!</p>
+
+            {% endif %}
+
+        </ul>
     
-    <!-- Make a new wheel -->
-    <form method="post" action="{{ url_for('wheels') }}" class="wheel-form">
-        <input type="hidden" name="action" value="create">
-        <input type="text" name="wheel_name" id="wheel_name" placeholder="Wheel Name" required class="margin-bot"><br>
-        <input type="text" name="options" id="options" placeholder="Options (comma-separated)" required class="margin-bot"><br>
-        <button type="submit">Create Wheel</button>
-    </form>
-    
+
+        <!-- Make a new wheel -->
+        <form method="post" action="{{ url_for('wheels') }}" class="wheel-form">
+            <input type="hidden" name="action" value="create">
+            <input type="text" name="wheel_name" id="wheel_name" placeholder="Wheel Name" required class="margin-bot"><br>
+            <input type="text" name="options" id="options" placeholder="Options (comma-separated)" required class="margin-bot"><br>
+            <button type="submit">Create Wheel</button>
+        </form>
+    </div>
+
 {% endblock %}
