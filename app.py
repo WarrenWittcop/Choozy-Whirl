@@ -85,7 +85,7 @@ def wheels():
         action = request.form['action']
         if action == 'create':
             wheel_name = request.form['wheel_name']
-            options = [option.strip() for option in request.form['options'].split(',')]
+            options = [option.strip() for option in request.form['options'].split(',')]  # Split options by comma
             user_wheels.append({'name': wheel_name, 'options': options})
         elif action == 'delete':
             wheel_index = int(request.form['wheel_index'])
@@ -93,15 +93,17 @@ def wheels():
         elif action == 'update':
             wheel_index = int(request.form['wheel_index'])
             wheel_name = request.form['wheel_name']
-            options = [option.strip() for option in request.form['options'].split(',')]
+            options = [option.strip() for option in request.form.getlist('options[]')]  # Use getlist to get all options
             user_wheels[wheel_index] = {'name': wheel_name, 'options': options}
 
-        # Save the updated user_wheels back to the session -- will change to databas once hooked up
+        # Save the updated user_wheels back to the session -- will change to database once hooked up
         session['user_wheels'] = user_wheels
 
         return redirect(url_for('wheels'))
 
     return render_template('wheels.html', user_wheels=user_wheels)
+
+
 
 @app.route('/get-wheel-options', methods=['GET'])
 def get_wheel_options():

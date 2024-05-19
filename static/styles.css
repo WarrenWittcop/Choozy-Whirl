@@ -207,3 +207,26 @@ nav ul li a {
     top: 50%;
     transform-origin: top; 
   }
+
+  /* Adjustments for wheel names */
+.wheel-container {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.wheel {
+  width: 100px;
+  text-align: left;
+  margin-right: 10px; 
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.action-buttons form {
+  margin-right: 10px; 
+}
