@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} Profile {% endblock %}
+{% block title %}Profile{% endblock %}
 
 {% block body %}
 
@@ -17,7 +17,7 @@
             </select>
         </div>
         
-            <button id="spin-button" onclick="spinWheel()">Spin Wheel</button>
+        <button id="spin-button" onclick="spinWheel()">Spin Wheel</button>
         
         <!-- Display selected option -->
         <div id="selected-option"></div>
@@ -63,24 +63,24 @@
     }
 
     function drawWheel(options) {
-    var wheel = document.getElementById("decision-wheel");
-    wheel.innerHTML = '';
-    if (options.length === 0) return;
+        var wheel = document.getElementById("decision-wheel");
+        wheel.innerHTML = '';
+        if (options.length === 0) return;
 
-    var totalOptions = options.length;
-    var anglePerOption = 360 / totalOptions;
+        var totalOptions = options.length;
+        var anglePerOption = 360 / totalOptions;
 
-    for (var i = 0; i < totalOptions; i++) {
-        var startAngle = i * anglePerOption;
-        var endAngle = (i + 1) * anglePerOption;
+        for (var i = 0; i < totalOptions; i++) {
+            var startAngle = i * anglePerOption;
+            var endAngle = (i + 1) * anglePerOption;
 
-        // Draw wedge
-        var wedge = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        wedge.setAttribute("fill", getRandomColor());
-        wedge.setAttribute("d", describeArc(180, 180, 160, startAngle, endAngle)); 
-        wheel.appendChild(wedge);
+            // Draw wedge
+            var wedge = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            wedge.setAttribute("fill", getRandomColor());
+            wedge.setAttribute("d", describeArc(180, 180, 160, startAngle, endAngle)); 
+            wheel.appendChild(wedge);
+        }
     }
-}
 
     function getRandomColor() {
         var letters = '3456789ABCDEF';
@@ -118,27 +118,28 @@
         var randomIndex = Math.floor(Math.random() * wheelOptions.length);
         var selectedOption = wheelOptions[randomIndex];
         document.getElementById("selected-option").innerText = "Selected Option: " + selectedOption;
-        animateWheel(randomIndex); // Pass the selected index to animateWheel
+        animateWheel(randomIndex); 
     }
 
     function animateWheel(selectedIndex) {
         var wheel = document.getElementById("decision-wheel");
         wheel.style.transition = 'transform 3s ease-in-out';
-        rotationCount = Math.floor(Math.random() * 5) + 5; 
-        initialRotation = Math.floor(Math.random() * 360);
-        var rotation = 360 * rotationCount + initialRotation; 
-        wheel.style.transform = 'rotate(' + rotation + 'deg)';
-
-        // Display indicator
-        var indicator = document.getElementById("indicator");
+        var rotationCount = Math.floor(Math.random() * 5) + 5; 
+        initialRotation = (initialRotation % 360) + 360 * rotationCount; 
         var totalOptions = wheelOptions.length;
         var anglePerOption = 360 / totalOptions;
-        var indicatorAngle = anglePerOption * selectedIndex;
-        indicator.style.transform = 'rotate(' + (indicatorAngle + 90) + 'deg)';
+        var rotation = initialRotation + (selectedIndex * anglePerOption); 
+
+        wheel.style.transform = 'rotate(' + rotation + 'deg)';
+
         setTimeout(function() {
-            wheel.style.transition = '';
+            wheel.style.transition = 'none'; 
+            wheel.style.transform = 'rotate(' + (rotation % 360) + 'deg)'; 
+            initialRotation = rotation % 360; 
+            setTimeout(function() {
+                wheel.style.transition = ''; 
+            }, 50);
         }, 3000);
-    }
 </script>
 
 {% endblock %}
