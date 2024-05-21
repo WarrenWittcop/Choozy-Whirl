@@ -39,11 +39,17 @@
                     <input type="hidden" name="action" value="update">
                     <input type="hidden" name="wheel_index" value="{{ loop.index0 }}">
                     <input type="text" name="wheel_name" value="{{ wheel.name }}" required>
+                    
                     {% for option in wheel.options %}
-                    <input type="text" name="options[]" value="{{ option }}" required><br>
+                        {% if loop.index <= 2 %}
+                            <input type="text" name="options[]" value="{{ option }}" required><br>
+                        {% else %}
+                            <input type="text" name="options[]" value="{{ option }}"><br>
+                        {% endif %}
                     {% endfor %}
+                    
                     {% for i in range(wheel.options | length, 10) %}
-                    <input type="text" name="options[]"><br>
+                        <input type="text" name="options[]"><br>
                     {% endfor %}
                     <button type="submit">Save Changes</button>
                 </form>
