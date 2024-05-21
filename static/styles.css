@@ -184,7 +184,7 @@ nav ul li a {
 }
 
   /* Adjustments for wheel */
-  .wheel-container {
+  .decision-wheel-container {
     position: relative; 
     display: flex;
     justify-content: center;

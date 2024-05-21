@@ -17,14 +17,14 @@
             </select>
         </div>
         
-        <button id="spin-button" onclick="spinWheel()" class="margin-bot2" >Spin Wheel</button>
+        <button id="spin-button" onclick="spinWheel()" class="margin-bot2">Spin Wheel</button>
         
         <!-- Display selected option -->
         <div id="selected-option"></div>
 
-        <div class="wheel-container">
+        <div class="decision-wheel-container">
             <svg id="decision-wheel" width="80%" height="80%" viewBox="0 0 360 360"></svg>
-            <div id="indicator"></div> <!-- Indicator -->
+            <div id="indicator" style="transform: rotate(180deg);"></div> <!-- Indicator always pointing up -->
         </div>
 
     {% else %}
@@ -33,14 +33,14 @@
 </div>
 
 <script>
-    var wheelOptions = [];
-    var initialRotation = 0;
+    let wheelOptions = [];
+    let initialRotation = 0;
 
     function centerWheel() {
-        var wheelContainer = document.querySelector('.wheel-container');
-        var wheel = document.getElementById("decision-wheel");
-        var wheelWidth = wheel.getBoundingClientRect().width;
-        var containerWidth = wheelContainer.getBoundingClientRect().width;
+        const wheelContainer = document.querySelector('.decision-wheel-container');
+        const wheel = document.getElementById("decision-wheel");
+        const wheelWidth = wheel.getBoundingClientRect().width;
+        const containerWidth = wheelContainer.getBoundingClientRect().width;
         wheel.style.marginLeft = (containerWidth - wheelWidth) / 2 + 'px';
     }
 
@@ -52,10 +52,11 @@
     window.addEventListener('resize', centerWheel);
 
     function updateWheel() {
-        var selectedWheel = document.getElementById("wheelSelect").value;
+        const selectedWheel = document.getElementById("wheelSelect").value;
         fetch('/get-wheel-options?wheel_name=' + selectedWheel)
             .then(response => response.json())
             .then(data => {
+                console.log(data); 
                 wheelOptions = data.options;
                 drawWheel(wheelOptions);
             })
@@ -63,61 +64,60 @@
     }
 
     function drawWheel(options) {
-    var wheel = document.getElementById("decision-wheel");
-    wheel.innerHTML = '';
-    if (options.length === 0) return;
+        const wheel = document.getElementById("decision-wheel");
+        wheel.innerHTML = '';
+        if (options.length === 0) return;
 
-    var totalOptions = Math.min(options.length, 10); 
-    var anglePerOption = 360 / totalOptions;
+        const totalOptions = Math.min(options.length, 10); 
+        const anglePerOption = 360 / totalOptions;
 
-    for (var i = 0; i < totalOptions; i++) {
-        var startAngle = i * anglePerOption;
-        var endAngle = (i + 1) * anglePerOption;
+        for (let i = 0; i < totalOptions; i++) {
+            const startAngle = i * anglePerOption;
+            const endAngle = (i + 1) * anglePerOption;
 
-        // Draw wedge
-        var wedge = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        wedge.setAttribute("fill", getRandomColor());
-        wedge.setAttribute("d", describeArc(180, 180, 160, startAngle, endAngle)); 
-        wheel.appendChild(wedge);
+            // Draw wedge
+            const wedge = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            wedge.setAttribute("fill", getRandomColor());
+            wedge.setAttribute("d", describeArc(180, 180, 160, startAngle, endAngle)); 
+            wheel.appendChild(wedge);
 
-        // Calculate midpoint angle for text placement
-        var angle = (startAngle + endAngle) / 2;
+            // Calculate midpoint angle for text placement
+            const angle = (startAngle + endAngle) / 2;
 
-        // Calculate coordinates for text placement
-        var radius = 120; 
-        var x = 180 + (radius * Math.cos(angle * Math.PI / 180));
-        var y = 180 + (radius * Math.sin(angle * Math.PI / 180));
+            // Calculate coordinates for text placement
+            const radius = 120; 
+            const x = 180 + (radius * Math.cos(angle * Math.PI / 180));
+            const y = 180 + (radius * Math.sin(angle * Math.PI / 180));
 
-        // Create and style text element
-        var text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-        text.setAttribute("x", x);
-        text.setAttribute("y", y);
-        text.setAttribute("text-anchor", "middle");
-        text.setAttribute("dominant-baseline", "middle");
+            console.log(`Text ${i + 1}: x=${x}, y=${y}`);
 
-        // Adjust text position based on angle
-        if (angle >= 90 && angle <= 270) {
-            text.setAttribute("transform", "rotate(180 " + x + "," + y + ")"); 
+            // Create and style text element
+            const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            text.setAttribute("x", x);
+            text.setAttribute("y", y);
+            text.setAttribute("text-anchor", "middle");
+            text.setAttribute("dominant-baseline", "middle");
+
+            // Adjust text position based on angle
+            if (angle >= 90 && angle <= 270) {
+                text.setAttribute("transform", `rotate(180 ${x},${y})`); 
+            }
+            text.textContent = options[i];
+            wheel.appendChild(text);
         }
-        text.textContent = options[i];
-        wheel.appendChild(text);
     }
-}
-
-
-
 
     function getRandomColor() {
-        var letters = '3456789ABCDEF';
-        var color = '#';
-        for (var i = 0; i < 6; i++) {
+        const letters = '3456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
             color += letters[Math.floor(Math.random() * letters.length)];
         }
         return color;
     }
 
     function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
-        var angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
+        const angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
         return {
             x: centerX + (radius * Math.cos(angleInRadians)),
             y: centerY + (radius * Math.sin(angleInRadians))
@@ -125,10 +125,10 @@
     }
 
     function describeArc(x, y, radius, startAngle, endAngle) {
-        var start = polarToCartesian(x, y, radius, endAngle);
-        var end = polarToCartesian(x, y, radius, startAngle);
-        var largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
-        var d = [
+        const start = polarToCartesian(x, y, radius, endAngle);
+        const end = polarToCartesian(x, y, radius, startAngle);
+        const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+        const d = [
             "M", start.x, start.y,
             "A", radius, radius, 0, largeArcFlag, 0, end.x, end.y,
             "L", x, y,
@@ -140,31 +140,53 @@
 
     function spinWheel() {
         if (wheelOptions.length === 0) return;
-        var randomIndex = Math.floor(Math.random() * wheelOptions.length);
-        var selectedOption = wheelOptions[randomIndex];
-        document.getElementById("selected-option").innerText = "Selected Option: " + selectedOption;
+        const randomIndex = Math.floor(Math.random() * wheelOptions.length);
         animateWheel(randomIndex); 
     }
 
     function animateWheel(selectedIndex) {
-        var wheel = document.getElementById("decision-wheel");
-        wheel.style.transition = 'transform 3s ease-in-out';
-        var rotationCount = Math.floor(Math.random() * 5) + 5; 
-        initialRotation = (initialRotation % 360) + 360 * rotationCount; 
-        var totalOptions = wheelOptions.length;
-        var anglePerOption = 360 / totalOptions;
-        var rotation = initialRotation + (selectedIndex * anglePerOption); 
+        const wheel = document.getElementById("decision-wheel");
+        
+        // Reset the wheel to its starting position
+        wheel.style.transition = 'none';
+        wheel.style.transform = 'rotate(0deg)';
+        initialRotation = 0;
 
-        wheel.style.transform = 'rotate(' + rotation + 'deg)';
+        setTimeout(() => {
+            wheel.style.transition = 'transform 3s ease-in-out';
+            
+            const totalOptions = wheelOptions.length;
+            const anglePerOption = 360 / totalOptions;
+            const selectedAngle = selectedIndex * anglePerOption;
+            
+            // Calculate the total rotation needed to bring the selected option to the top after 5 full rotations
+            const rotationCount = 5;
+            const totalRotation = (rotationCount * 360) + selectedAngle;
 
-        setTimeout(function() {
-            wheel.style.transition = 'none'; 
-            wheel.style.transform = 'rotate(' + (rotation % 360) + 'deg)'; 
-            initialRotation = rotation % 360; 
+            // Adjust rotation to move indicator to the middle of the selected option
+            const adjustment = anglePerOption / 2;
+            const finalRotation = totalRotation + adjustment;
+
+            initialRotation = finalRotation;
+
+            wheel.style.transform = `rotate(${initialRotation}deg)`;
+
             setTimeout(function() {
-                wheel.style.transition = ''; 
-            }, 50);
-        }, 3000); }
+                wheel.style.transition = 'none';
+                wheel.style.transform = `rotate(${initialRotation % 360}deg)`;
+                initialRotation = initialRotation % 360;
+
+                // Update selected option after animation finishes
+                const indexOfIndicator = Math.floor((initialRotation % 360) / anglePerOption);
+                const selectedOption = wheelOptions[indexOfIndicator];
+                document.getElementById("selected-option").innerText = "The wheel says: " + selectedOption + "!";
+
+                setTimeout(function() {
+                    wheel.style.transition = '';
+                }, 50);
+            }, 3000);
+        }, 50); 
+    }
 </script>
 
 {% endblock %}
