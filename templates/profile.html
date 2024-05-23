@@ -107,14 +107,19 @@
         }
     }
 
-    function getRandomColor() {
-        const letters = '3456789ABCDEF';
-        let color = '#';
-        for (let i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * letters.length)];
-        }
-        return color;
+    let availableColors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffa500', '#800080', '#008000', '#000080'];
+
+function getRandomColor() {
+    if (availableColors.length === 0) {
+        availableColors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffa500', '#800080', '#008000', '#000080'];
     }
+    
+    // Select a random index from the array
+    const randomIndex = Math.floor(Math.random() * availableColors.length);
+    
+    // Remove the selected color from the array and return it
+    return availableColors.splice(randomIndex, 1)[0];
+}
 
     function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
         const angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
@@ -153,43 +158,41 @@
     initialRotation = 0;
 
     setTimeout(() => {
-        wheel.style.transition = 'transform 3s ease-in-out';
+        wheel.style.transition = 'transform 3s linear'; // 5 rotations in 3 seconds
         
         const totalOptions = wheelOptions.length;
         const anglePerOption = 360 / totalOptions;
-        const selectedAngle = selectedIndex * anglePerOption;
-        
-        // Calculate the total rotation needed to bring the selected option to the top
         const rotationCount = 5; // Number of full rotations
-        const totalRotation = (rotationCount * 360) + selectedAngle;
-        
-        // Adjust rotation to move indicator to the middle of the selected option
-        const rotationOffset = anglePerOption / 2; // Adjust this value based on the specific offset
-        const adjustedRotation = (totalRotation + rotationOffset) % 360;
-        const finalRotation = adjustedRotation;
-        
-        initialRotation = finalRotation;
-        
-        wheel.style.transform = `rotate(${initialRotation}deg)`;
-        
-        setTimeout(function() {
-            wheel.style.transition = 'none';
-            wheel.style.transform = `rotate(${initialRotation % 360}deg)`;
-            initialRotation = initialRotation % 360;
+        const totalRotation = rotationCount * 360;
+
+        // Rotate the wheel clockwise
+        wheel.style.transform = `rotate(${totalRotation}deg)`;
+
+        // Wait for the rotations to complete
+        setTimeout(() => {
+            // Calculate the angle for the selected option
+            const selectedAngle = selectedIndex * anglePerOption;
+
+            // Adjust rotation to move indicator to the middle of the selected option
+            const rotationOffset = anglePerOption / 2; 
+            const adjustedRotation = (totalRotation + selectedAngle + rotationOffset) % 360;
+            const finalRotation = adjustedRotation;
             
+            initialRotation = finalRotation;
+
+            // Apply final rotation
+            wheel.style.transition = 'transform 3s ease-in-out';
+            wheel.style.transform = `rotate(${initialRotation}deg)`;
+
             // Update selected option after animation finishes
-            const indexOfIndicator = Math.floor(((360 - initialRotation) % 360) / anglePerOption);
-            const selectedOption = wheelOptions[indexOfIndicator];
-            document.getElementById("selected-option").innerText = "The wheel says: " + selectedOption + "!";
-            
-            setTimeout(function() {
-                wheel.style.transition = '';
-            }, 50);
-        }, 3000);
-    }, 50); 
+            setTimeout(() => {
+                const indexOfIndicator = Math.floor(((360 - initialRotation) % 360) / anglePerOption);
+                const selectedOption = wheelOptions[indexOfIndicator];
+                document.getElementById("selected-option").innerText = "The wheel says: " + selectedOption + "!";
+            }, 3000);
+        }, 3000); //rotation time
+    }, 50);
 }
-
-
 
 </script>
 

@@ -230,3 +230,10 @@ nav ul li a {
 .action-buttons form {
   margin-right: 10px; 
 }
+
+#decision-wheel text {
+  fill: black; 
+  font-size: 16px; 
+  text-anchor: middle;
+  text-shadow: 0 0 20px white; 
+}
