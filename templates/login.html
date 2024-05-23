@@ -1,21 +1,18 @@
-
 {% extends 'base.html' %}
 
 {% block title %} Login {% endblock %}
 
 {% block body %}
+<div class="words">
+    <h1 style="padding-top: 50px;">Login</h1>
+    <form method="post" action="{{ url_for('login') }}" class="login-form">
+        <input type="text" id="identifier" name="identifier" placeholder="Username or Email" required class="margin-bot"><br>
+        <input type="password" id="password" name="password" placeholder="Password" required class="margin-bot"><br>
+        <button type="submit">Login</button>
+    </form>
+</div>
 
-    <div class="words">
-        <h1 style="padding-top: 50px;">Login</h1>
-            <form method="post" action="{{ url_for('login') }}" class="login-form">
-                <input type="text" id="identifier" name="identifier" placeholder="Username or Email" required class="margin-bot"><br>
-                <input type="password" id="password" name="password" placeholder="Password" required class="margin-bot"><br>
-                <button type="submit">Login</button>
-            </form>
-    </div>
-
-    {% if error %}
-        <p style="color: red;">{{ error }}</p>
-    {% endif %}
-
-{% endblock%}
+{% if error %}
+    <p style="color: red;">{{ error }}</p>
+{% endif %}
+{% endblock %}

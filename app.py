@@ -1,6 +1,7 @@
 # base packages
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from dotenv import load_dotenv
+from flask_pymongo import PyMongo
 import os
 
 # custom things I wrote
@@ -11,12 +12,15 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['MONGO_URI'] = os.getenv('MONGO_URI')
+
+mongo = PyMongo(app)
 
 # test data for user login
-users = {
-    'user1': {'email': 'user1@example.com', 'password': 'password1'},
-    'user2': {'email': 'user2@example.com', 'password': 'password2'}
-}
+# users = {
+#     'user1': {'email': 'user1@example.com', 'password': 'password1'},
+#     'user2': {'email': 'user2@example.com', 'password': 'password2'}
+# }
 
 # route for home
 @app.route('/')
@@ -33,26 +37,25 @@ def signupuserroute():
             email=form.email.data,
             password=form.password.data
         )
+        
+        user_collection = mongo.db.users
+        if user_collection.find_one({'username': userprofile.username}):
+            return render_template('signup.html', form=form, error="Username already exists")
+        
         signUpUser(userprofile)
-        users[userprofile.username] = {'email': userprofile.email, 'password': userprofile.password}
         return redirect(url_for('login'))
+    
     return render_template('signup.html', form=form)
 
 # route for login
-@app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         identifier = request.form['identifier']
         password = request.form['password']
 
-        # Check if the identifier is a username or email
-        user = None
-        for username, details in users.items():
-            if identifier == username or identifier == details['email']:
-                user = {'username': username, 'password': details['password']}
-                break
+        user_collection = mongo.db.users
+        user = user_collection.find_one({'$or': [{'username': identifier}, {'email': identifier}]})
 
-        # Validate password
         if user and user['password'] == password:
             session['user_id'] = user['username']
             return redirect(url_for('profile'))
@@ -68,9 +71,12 @@ def profile():
         return redirect(url_for('login'))
 
     username = session['user_id']
-    user_wheels = session.get('user_wheels', [])
+    user_collection = mongo.db.users
+    user = user_collection.find_one({'username': username})
+    user_wheels = user.get('wheels', [])
 
     return render_template('profile.html', username=username, user_wheels=user_wheels)
+
 
 # route for wheels
 @app.route('/wheels', methods=['GET', 'POST'])
@@ -79,13 +85,16 @@ def wheels():
         return redirect(url_for('login'))
 
     user_id = session['user_id']
-    user_wheels = session.get('user_wheels', [])
+    user_collection = mongo.db.users
+    user = user_collection.find_one({'username': user_id})
+
+    user_wheels = user.get('wheels', [])
 
     if request.method == 'POST':
         action = request.form['action']
         if action == 'create':
             wheel_name = request.form['wheel_name']
-            options = [option.strip() for option in request.form['options'].split(',')]  # Split options by comma
+            options = [option.strip() for option in request.form['options'].split(',')]
             user_wheels.append({'name': wheel_name, 'options': options})
         elif action == 'delete':
             wheel_index = int(request.form['wheel_index'])
@@ -93,11 +102,10 @@ def wheels():
         elif action == 'update':
             wheel_index = int(request.form['wheel_index'])
             wheel_name = request.form['wheel_name']
-            options = [option.strip() for option in request.form.getlist('options[]')]  # Use getlist to get all options
+            options = [option.strip() for option in request.form.getlist('options[]') if option.strip()]
             user_wheels[wheel_index] = {'name': wheel_name, 'options': options}
 
-        # Save the updated user_wheels back to the session -- will change to database once hooked up
-        session['user_wheels'] = user_wheels
+        user_collection.update_one({'username': user_id}, {'$set': {'wheels': user_wheels}})
 
         return redirect(url_for('wheels'))
 
@@ -111,13 +119,17 @@ def get_wheel_options():
         return jsonify(options=[]), 403
 
     wheel_name = request.args.get('wheel_name')
-    user_wheels = session.get('user_wheels', [])
+    user_id = session['user_id']
+    user_collection = mongo.db.users
+    user = user_collection.find_one({'username': user_id})
+    user_wheels = user.get('wheels', [])
     wheel = next((wheel for wheel in user_wheels if wheel['name'] == wheel_name), None)
 
     if wheel:
         return jsonify(options=wheel['options'])
     else:
         return jsonify(options=[]), 404
+
 
 @app.route('/delete_wheel/<int:wheel_index>', methods=['POST'])
 def delete_wheel(wheel_index):

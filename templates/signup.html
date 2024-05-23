@@ -1,26 +1,24 @@
-
 {% extends 'base.html' %}
 
 {% block title %} Signup {% endblock %}
 
 {% block body %} 
-
 <div class="words">
     <h1 style="padding-top: 50px;"> Sign Up below</h1>
 
-        <form method="post" action="{{ url_for('signupuserroute') }}" class="signup-form">
+    <form method="post" action="{{ url_for('signupuserroute') }}" class="signup-form">
+        {{ form.hidden_tag() }}
+        {{ form.username.label }}<br>
+        {{ form.username(class="margin-bot") }}<br>
+        {{ form.email.label }}<br>
+        {{ form.email(class="margin-bot") }}<br>
+        {{ form.password.label }}<br>
+        {{ form.password(class="margin-bot") }}<br>
+        <button type="submit">Submit</button>
+    </form>
 
-            {{ form.hidden_tag() }}
-
-            <input type="text" name="username" id="username" placeholder="Username" required class="margin-bot"><br>
-            
-            <input type="email" name="email" id="email" placeholder="Email" required class="margin-bot"><br>
-
-            <input type="password" name="password" id="password" placeholder="Password" minlength="2" required class="margin-bot"><br>
-
-            <button type="submit">Submit</button>
-
-        </form>
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
 </div>
-
 {% endblock %}
