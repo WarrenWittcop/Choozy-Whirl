@@ -107,11 +107,11 @@
         }
     }
 
-    let availableColors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffa500', '#800080', '#008000', '#000080'];
+    let availableColors = ['#fd7878','#00ff00','#0000ff','#ffff00','#ff00ff','#00ffff','#ffa600','#800080','#008000','#ffa5e7'];
 
 function getRandomColor() {
     if (availableColors.length === 0) {
-        availableColors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffa500', '#800080', '#008000', '#000080'];
+        availableColors = ['#fd7878','#00ff00','#0000ff','#ffff00','#ff00ff','#00ffff','#ffa600','#800080','#008000','#ffa5e7'];
     }
     
     // Select a random index from the array
@@ -158,7 +158,7 @@ function getRandomColor() {
     initialRotation = 0;
 
     setTimeout(() => {
-        wheel.style.transition = 'transform 3s linear'; // 5 rotations in 3 seconds
+        wheel.style.transition = 'transform 2s linear'; // 5 rotations in 2 seconds
         
         const totalOptions = wheelOptions.length;
         const anglePerOption = 360 / totalOptions;
@@ -181,7 +181,7 @@ function getRandomColor() {
             initialRotation = finalRotation;
 
             // Apply final rotation
-            wheel.style.transition = 'transform 3s ease-in-out';
+            wheel.style.transition = 'transform 2s ease-in-out';
             wheel.style.transform = `rotate(${initialRotation}deg)`;
 
             // Update selected option after animation finishes
