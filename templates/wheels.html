@@ -14,7 +14,7 @@
         <form method="post" action="{{ url_for('wheels') }}" class="wheel-form">
             <input type="hidden" name="action" value="create">
             <input type="text" name="wheel_name" id="wheel_name" placeholder="Wheel Name" maxlength="12" oninput="limitInputLength()" required class="margin-bot"><br>
-            <input type="text" name="options" placeholder="Options" required class="margin-bot"><br> <!-- Single input box for options -->
+            <input type="text" name="options" placeholder="Options" required class="margin-bot"><br> 
             <button type="submit" class="margin-bot2">Create Wheel</button>
         </form>
     </div>

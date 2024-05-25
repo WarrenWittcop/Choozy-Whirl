@@ -48,6 +48,7 @@ def signupuserroute():
     return render_template('signup.html', form=form)
 
 # route for login
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         identifier = request.form['identifier']
@@ -76,7 +77,6 @@ def profile():
     user_wheels = user.get('wheels', [])
 
     return render_template('profile.html', username=username, user_wheels=user_wheels)
-
 
 # route for wheels
 @app.route('/wheels', methods=['GET', 'POST'])
@@ -111,8 +111,6 @@ def wheels():
 
     return render_template('wheels.html', user_wheels=user_wheels)
 
-
-
 @app.route('/get-wheel-options', methods=['GET'])
 def get_wheel_options():
     if 'user_id' not in session:
@@ -129,7 +127,6 @@ def get_wheel_options():
         return jsonify(options=wheel['options'])
     else:
         return jsonify(options=[]), 404
-
 
 @app.route('/delete_wheel/<int:wheel_index>', methods=['POST'])
 def delete_wheel(wheel_index):
@@ -148,7 +145,6 @@ def delete_wheel(wheel_index):
 def logout():
     session.pop('user_id', None)
     return redirect(url_for('hello'))
-
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
