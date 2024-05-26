@@ -1,3 +1,5 @@
+/* main styles */
+
 body, html {
     margin: 0;
     padding: 0;
@@ -114,7 +116,7 @@ body, html {
       }
   }
   
-  /* Additional styles for specific pages */
+  /* Additional styles */
   
   .welcome-text {
       font-size: 1.5em;
@@ -229,7 +231,7 @@ body, html {
   
   .action-buttons {
       display: flex;
-      justify-content: center; /* Center horizontally */
+      justify-content: center;
       margin-top: 10px;
   }
   
@@ -290,6 +292,7 @@ body, html {
       padding: 5px 10px;
       cursor: pointer;
       border-radius: 5px;
+      text-decoration: none;
   }
   
   .action-button:hover {
@@ -316,4 +319,43 @@ body, html {
 
 .create-button:hover {
     background-color: #0da6d9; 
+}
+
+/* wheel edit page */
+.edit-wheel-container {
+    background-color: #0531e2; 
+    color: #fff; 
+    padding: 20px; 
+    border-radius: 10px; 
+    margin-top: 20px; 
+    max-width: 80%; 
+    margin-left: auto; 
+    margin-right: auto; 
+}
+
+.edit-wheel-container label {
+    display: block;
+}
+
+.edit-wheel-container input[type="text"] {
+    width: 90%; 
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+.edit-wheel-container button {
+    background-color: black; 
+    color: silver; 
+    padding: 10px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.edit-wheel-container button:hover {
+    background-color: #333;
 }

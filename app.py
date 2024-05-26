@@ -127,6 +127,30 @@ def get_wheel_options():
         return jsonify(options=wheel['options'])
     else:
         return jsonify(options=[]), 404
+    
+# route for editing a wheel
+@app.route('/edit_wheel/<int:wheel_index>', methods=['GET', 'POST'])
+def edit_wheel(wheel_index):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+    user_collection = mongo.db.users
+    user = user_collection.find_one({'username': user_id})
+
+    user_wheels = user.get('wheels', [])
+    wheel = user_wheels[wheel_index]
+
+    if request.method == 'POST':
+        # Update the wheel details
+        wheel_name = request.form['wheel_name']
+        options = [option.strip() for option in request.form.getlist('options[]') if option.strip()]
+        user_wheels[wheel_index] = {'name': wheel_name, 'options': options}
+        user_collection.update_one({'username': user_id}, {'$set': {'wheels': user_wheels}})
+
+        return redirect(url_for('wheels'))
+
+    return render_template('wheeledit.html', wheel=wheel, wheel_index=wheel_index)    
 
 @app.route('/delete_wheel/<int:wheel_index>', methods=['POST'])
 def delete_wheel(wheel_index):

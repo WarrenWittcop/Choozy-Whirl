@@ -14,43 +14,27 @@
             <input type="hidden" name="action" value="create">
             <input type="text" name="wheel_name" id="wheel_name" placeholder="Wheel Name" maxlength="12" oninput="limitInputLength()" required class="margin-bot"><br>
             <input type="text" name="options" placeholder="Options" required class="margin-bot"><br> 
-            <button type="submit" class="margin-bot2 create-button" >Create Wheel</button>
+            <button type="submit" class="margin-bot2 create-button">Create Wheel</button>
         </form>
     </div>
 
     <!-- Display user wheels -->
     <div class="wheels-container">
         {% if user_wheels %}
+            {% set wheel_index = 0 %}
             {% for wheel in user_wheels %}
             <div class="wheel">
                 <strong>{{ wheel.name }}</strong>
                 <div class="action-buttons">
                     <form method="post" action="{{ url_for('wheels') }}" style="display: inline;">
                         <input type="hidden" name="action" value="delete">
-                        <input type="hidden" name="wheel_index" value="{{ loop.index0 }}">
+                        <input type="hidden" name="wheel_index" value="{{ wheel_index }}">
                         <button type="submit" class="action-button">Delete</button>
                     </form>
-                    <button class="action-button" onclick="document.getElementById('edit-form-{{ loop.index0 }}').style.display='block'">Edit</button>
+                    <a href="{{ url_for('edit_wheel', wheel_index=loop.index0) }}" class="action-button">Edit</a>
                 </div>
-                <form id="edit-form-{{ loop.index0 }}" method="post" action="{{ url_for('wheels') }}" style="display:none;">
-                    <input type="hidden" name="action" value="update">
-                    <input type="hidden" name="wheel_index" value="{{ loop.index0 }}">
-                    <input type="text" name="wheel_name" value="{{ wheel.name }}" required>
-                    
-                    {% for option in wheel.options %}
-                        {% if loop.index <= 2 %}
-                            <input type="text" name="options[]" value="{{ option }}" required><br>
-                        {% else %}
-                            <input type="text" name="options[]" value="{{ option }}"><br>
-                        {% endif %}
-                    {% endfor %}
-                    
-                    {% for i in range(wheel.options | length, 10) %}
-                        <input type="text" name="options[]"><br>
-                    {% endfor %}
-                    <button type="submit" class="action-button">Save Changes</button>
-                </form>
             </div>
+            {% set wheel_index = wheel_index + 1 %}
             {% endfor %}
         {% else %}
             <p>No wheels found. Create one!</p>

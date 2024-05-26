@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Wheel{% endblock %}
+
+{% block body %}
+<div class="words" style="padding-top: 50px;">
+    <h1>Edit Wheel</h1>
+
+    <div class="edit-wheel-container">
+        <form method="post" action="{{ url_for('wheels') }}" class="wheel-form">
+            <input type="hidden" name="action" value="update">
+            <input type="hidden" name="wheel_index" value="{{ wheel_index }}">
+            <input type="text" name="wheel_name" value="{{ wheel.name }}" required><br>
+            
+            {% for i in range(10) %}
+                <input type="text" name="options[]" value="{% if wheel.options[i] %}{{ wheel.options[i] }}{% endif %}" required><br>
+            {% endfor %}
+            
+            <button type="submit" class="margin-bot2 create-button">Save Changes</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
