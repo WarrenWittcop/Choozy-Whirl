@@ -6,8 +6,7 @@
 <div class="words" style="padding-top: 50px;">
     <h1>Your Wheels</h1>
 
-    <!-- Text above the create wheel section -->
-    <p>Enter up to 10 options separated by a comma</p>
+    <h4>Enter up to 10 options separated by a comma, then press Create Wheel.</h4>
 
     <!-- Create wheel section -->
     <div class="create-wheel-container">
@@ -15,7 +14,7 @@
             <input type="hidden" name="action" value="create">
             <input type="text" name="wheel_name" id="wheel_name" placeholder="Wheel Name" maxlength="12" oninput="limitInputLength()" required class="margin-bot"><br>
             <input type="text" name="options" placeholder="Options" required class="margin-bot"><br> 
-            <button type="submit" class="margin-bot2">Create Wheel</button>
+            <button type="submit" class="margin-bot2 create-button" >Create Wheel</button>
         </form>
     </div>
 
@@ -29,9 +28,9 @@
                     <form method="post" action="{{ url_for('wheels') }}" style="display: inline;">
                         <input type="hidden" name="action" value="delete">
                         <input type="hidden" name="wheel_index" value="{{ loop.index0 }}">
-                        <button type="submit">Delete</button>
+                        <button type="submit" class="action-button">Delete</button>
                     </form>
-                    <button onclick="document.getElementById('edit-form-{{ loop.index0 }}').style.display='block'">Edit</button>
+                    <button class="action-button" onclick="document.getElementById('edit-form-{{ loop.index0 }}').style.display='block'">Edit</button>
                 </div>
                 <form id="edit-form-{{ loop.index0 }}" method="post" action="{{ url_for('wheels') }}" style="display:none;">
                     <input type="hidden" name="action" value="update">
@@ -49,7 +48,7 @@
                     {% for i in range(wheel.options | length, 10) %}
                         <input type="text" name="options[]"><br>
                     {% endfor %}
-                    <button type="submit">Save Changes</button>
+                    <button type="submit" class="action-button">Save Changes</button>
                 </form>
             </div>
             {% endfor %}
