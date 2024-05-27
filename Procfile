@@ -1,1 +1,2 @@
-web: python app.py runserver %PORT%
+web: python account.py
+
