@@ -42,7 +42,7 @@ def signupuserroute():
         if user_collection.find_one({'username': userprofile.username}):
             return render_template('signup.html', form=form, error="Username already exists")
         
-        signUpUser(userprofile)
+        signUpUser(mongo, userprofile) 
         return redirect(url_for('login'))
     
     return render_template('signup.html', form=form)

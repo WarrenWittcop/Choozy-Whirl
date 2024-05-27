@@ -8,13 +8,10 @@
 
     <form method="post" action="{{ url_for('signupuserroute') }}" class="signup-form">
         {{ form.hidden_tag() }}
-        {{ form.username.label }}<br>
-        {{ form.username(class="margin-bot") }}<br>
-        {{ form.email.label }}<br>
-        {{ form.email(class="margin-bot") }}<br>
-        {{ form.password.label }}<br>
-        {{ form.password(class="margin-bot") }}<br>
-        <button type="submit">Submit</button>
+        <input type="text" name="username" placeholder="Username" class="margin-bot"><br>
+        <input type="email" name="email" placeholder="Email" class="margin-bot"><br>
+        <input type="password" name="password" placeholder="Password" class="margin-bot"><br>
+        <button type="submit" class="create-button">Submit</button>
     </form>
 
     {% if error %}

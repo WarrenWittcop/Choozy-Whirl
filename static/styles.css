@@ -222,6 +222,27 @@ body, html {
       transform-origin: top;
   }
   
+/* profile specific */
+
+  .spin-wheel-button {
+    background-color: #14bcf4; 
+    border: none; 
+    color: white; 
+    padding: 10px 16px;
+    text-align: center; 
+    text-decoration: none; 
+    display: inline-block; 
+    font-size: 16px; 
+    margin: 4px 2px; 
+    cursor: pointer; 
+    border-radius: 4px; 
+}
+
+.spin-wheel-button:hover {
+    background-color: #0da6d9; 
+}
+
+
   .wheel-container {
       display: grid;
       grid-template-columns: auto 1fr;
