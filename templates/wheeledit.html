@@ -13,11 +13,12 @@
             <input type="text" name="wheel_name" value="{{ wheel.name }}" required><br>
             
             {% for i in range(10) %}
-                <input type="text" name="options[]" value="{% if wheel.options[i] %}{{ wheel.options[i] }}{% endif %}" required><br>
+                <input type="text" name="options[]" value="{% if wheel.options[i] %}{{ wheel.options[i] }}{% endif %}" {% if i < 2 %}required{% endif %}><br> 
             {% endfor %}
             
             <button type="submit" class="margin-bot2 create-button">Save Changes</button>
         </form>
     </div>
+    
 </div>
 {% endblock %}
