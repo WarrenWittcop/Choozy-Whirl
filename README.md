@@ -2,14 +2,6 @@
 
 <h3 align="center"># Choozy</h3>
 
-  <p align="center">
-    project_description
-    <br />
-
-  </p>
-</div>
-
-
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -39,6 +31,15 @@
 ## About The Project
 
 Choozy is a simple app for making a random choice so you don't have to. Can't decide where to go for dinner? Who should do what chore? Make a wheel and let fate decide. 
+
+<div float="left">
+
+![334589457-5fe3d50e-822d-4934-8999-86c4d965c6ed](https://github.com/WarrenWittcop/Choozy-Whirl/assets/151705487/d62d6149-9a0d-4aee-b1de-43c822622866) ![334589317-ca944a23-1da6-48fa-a164-2c3ec3296d3d](https://github.com/WarrenWittcop/Choozy-Whirl/assets/151705487/e6497cbb-2316-4f89-9258-53dbd96aac5d)
+
+
+
+
+</div>
 
 ### Built With
 
