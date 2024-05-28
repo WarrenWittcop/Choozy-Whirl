@@ -29,7 +29,9 @@
 
 ## About The Project
 
-Choozy is a simple app for making a random choice so you don't have to. Can't decide where to go for dinner? Who should do what chore? Make a wheel and let fate decide. 
+Choozy is a simple app for making a random choice so you don't have to. Can't decide where to go for dinner? Who should do what chore? Make a wheel and let fate decide. <br>
+
+App link - https://choozy-c8834402e26d.herokuapp.com/<br>
 
 <div float="left">
 
