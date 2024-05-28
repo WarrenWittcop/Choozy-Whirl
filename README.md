@@ -21,8 +21,7 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#User Stories">User Stories</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
@@ -36,94 +35,69 @@ Choozy is a simple app for making a random choice so you don't have to. Can't de
 
 ![334589457-5fe3d50e-822d-4934-8999-86c4d965c6ed](https://github.com/WarrenWittcop/Choozy-Whirl/assets/151705487/d62d6149-9a0d-4aee-b1de-43c822622866) ![334589317-ca944a23-1da6-48fa-a164-2c3ec3296d3d](https://github.com/WarrenWittcop/Choozy-Whirl/assets/151705487/e6497cbb-2316-4f89-9258-53dbd96aac5d)
 
-
-
-
 </div>
+
+This is the link to the Entity Relationshipt Diagram or the ERD! <br> https://lucid.app/lucidchart/b86e61a4-3669-4a75-92f5-ec42e4a4d5e1/edit?invitationId=inv_fcd546b8-193d-46ec-8bd7-194ce22aae96&page=0_0#
+
+<p> 
+  Wireframes:<br>
+    https://github.com/WarrenWittcop/Choozy-Whirl/blob/main/wireframe1.jpg <br>
+    https://github.com/WarrenWittcop/Choozy-Whirl/blob/main/wireframe2.jpg <br>
+    https://github.com/WarrenWittcop/Choozy-Whirl/blob/main/wireframe3.jpg <br>
+</p>
 
 ### Built With
 
 * Python
 * Flask
 * MongoDB
+  
 
 ## Getting Started
 
 To get started is easy. You can go to the web address https://choozy-c8834402e26d.herokuapp.com/. You start by signing up then logging in.
 
+
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+1. Terminal program to run the code in, like Gitbash.
+2. Python
+
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/github_username/repo_name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
+1. Download Python, https://www.python.org/downloads/
+2. In your terminal create a directory where you will use the fork option.
+3. Use git clone in your terminal -- git clone https://github.com/WarrenWittcop/Choozy-Whirl.git
+4. In your terminal -- pip install -r requirements. txt, this will download all of the technologies used for the app.
+5. Open your browser and go to localhost:5000. This is set as the default, it can be changed if it is already in use.
+6. Enjoy!
 
 
-## Usage
+## User Stories
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-
-
-
-<!-- ROADMAP -->
-## Roadmap
-
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
-
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
+    As a user i want to be able to login in so i can have my personal wheels saved.
+    As a user i want to be able to change whats on the wheel easily and quickly.
+    As a user i want to be able to understand the wheel changes easily.
+    As a user i want to be able to share my wheels with friends.
+    As a user i want to be able to save my results for future viewing.
+    As a user i want to be able to get rid of or change wheels that I dont want anymore.
+    As a user i want to be able to change my wheel to make it visually appealing to me.
+    As a user i want to be able to keep my wheels private if I wish to.
+    As a user i want to be able to change the wheel title so i can see which one it is at a glance.
+    As a user i want to be able to have the random choice of whatever i put on the wheel be equal.
 
 
+##Issues
+
+1. The wheel becomes unbalanced if you resize the screen. Reload fixes it.
 
 
+## Future Updates
 
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-
-
-<!-- CONTACT -->
-## Contact
-
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
-
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
+1. Share wheels with friends.
+2. Select different wheel types.
+3. Record each spin in a history.
 
 ## Acknowledgments
 
