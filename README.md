@@ -38,21 +38,17 @@
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
-
+Choozy is a simple app for making a random choice so you don't have to. Can't decide where to go for dinner? Who should do what chore? Make a wheel and let fate decide. 
 
 ### Built With
 
-* 
+* Python
+* Flask
+* MongoDB
 
-
-<!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+To get started is easy. You can go to the web address https://choozy-c8834402e26d.herokuapp.com/. You start by signing up then logging in.
 
 ### Prerequisites
 
