@@ -16,11 +16,6 @@ app.config['MONGO_URI'] = os.getenv('MONGO_URI')
 
 mongo = PyMongo(app)
 
-# test data for user login
-# users = {
-#     'user1': {'email': 'user1@example.com', 'password': 'password1'},
-#     'user2': {'email': 'user2@example.com', 'password': 'password2'}
-# }
 
 # route for home
 @app.route('/')
